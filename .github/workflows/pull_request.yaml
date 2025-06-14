@@ -23,9 +23,9 @@ jobs:
         run: npm install -g yarn
       - name: Install Project
         run: yarn install
-      - name: Check Style
-        run: yarn run check
-      - name: Lint
+      - name: Lint and Check Formatting
         run: yarn run lint
+      - name: Svelte Check
+        run: yarn run check
       - name: Check Build
         run: yarn run build
