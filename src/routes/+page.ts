@@ -74,7 +74,9 @@ function parseCapacityGb(capacity: string): number {
 }
 
 async function fetchServerPartsData(collection: ServerPartsCollection) {
-  let { content, records } = await fetchServerPartsPage(collection, 1);
+  const fetchResult = await fetchServerPartsPage(collection, 1);
+  const { content } = fetchResult;
+  let records = fetchResult.records;
 
   const remainingPages = Math.ceil(
     (content.total_product - (content.total_product % PAGE_SIZE)) / PAGE_SIZE,

@@ -1,11 +1,11 @@
-<script lang="ts">
+<script lang="ts"  generics="RowData">
     import { ModuleRegistry, themeQuartz, colorSchemeDarkBlue, type ColDef, type GridOptions, createGrid, ClientSideRowModelModule } from "ag-grid-community";
     import { onMount } from "svelte"
 
     ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
     export let columnDefs: ColDef[] = []
-    export let rowData: any[] = []
+    export let rowData: RowData[] = []
 
     const darkTheme = themeQuartz.withPart(colorSchemeDarkBlue).withParams({
         backgroundColor: '#212121',
@@ -19,7 +19,7 @@
     let gridDiv: HTMLDivElement;
 
     onMount(() => {
-        const gridOptions: GridOptions<any> = {
+        const gridOptions: GridOptions<RowData> = {
             theme: darkTheme,
             columnDefs,
             rowData,
