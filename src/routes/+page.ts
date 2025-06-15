@@ -30,7 +30,6 @@ export type ServerPartsRecord = {
 
 async function getServerPartsRecords(collection: ServerPartsCollection) {
   const rawRecords = await fetchServerPartsData(collection);
-  console.log(JSON.stringify(rawRecords));
   return rawRecords
     .map((raw) => {
       const tagMap = new Map<string, string>(
@@ -173,11 +172,9 @@ async function fetchServerPartsPage(
   params.set("zero_options", `${true}`);
   params.set("build_filter_tree", `${true}`);
 
-  const url = `https://services.mybcapps.com/bc-sf-filter/filter?${params}`;
-  console.log(`Fetching ${url}`);
-
-  const response = await fetch(url, { method: "GET" });
-
+  const response = await fetch(
+    `https://services.mybcapps.com/bc-sf-filter/filter?${params}`,
+  );
   if (!response.ok) throw new Error("Failed to fetch serverpartdeals data");
 
   const content = await response.json();
