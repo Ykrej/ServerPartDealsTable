@@ -15,7 +15,6 @@ enum ServerPartsCollection {
 }
 
 export type ServerPartsRecord = {
-  available: boolean;
   brand: string;
   series: string;
   sku: string;
@@ -23,7 +22,7 @@ export type ServerPartsRecord = {
   condition: string;
   formFactor: string;
   interface: string;
-  interfaceSpeed: string;
+  interfaceSpeedGbPerSecond: number;
   type: string;
   warrantyDays: number;
   priceUsd: number;
@@ -31,35 +30,78 @@ export type ServerPartsRecord = {
 
 async function getServerPartsRecords(collection: ServerPartsCollection) {
   const rawRecords = await fetchServerPartsData(collection);
-  console.log(JSON.stringify(rawRecords));
-  return rawRecords.map((raw) => {
-    const tagMap = new Map<string, string>(
-      raw.tags.map((tag: string) => {
-        const delimiterIndex = tag.indexOf(":");
-        return [
-          tag.substring(0, delimiterIndex).trim(),
-          tag.substring(delimiterIndex + 1).trim(),
-        ];
-      }),
-    );
-    return {
-      brand: tagMap.get("brand"),
-      series: tagMap.get("series"),
-      sku: raw.skus,
-      capacityGb: parseCapacityGb(tagMap.get("capacity")),
-      formFactor: tagMap.get("formFactor"),
-      interface: tagMap.get("interface"),
-      interfaceSpeed: tagMap.get("interfaceSpeed"),
-      type: tagMap.get("type"),
-      warrantyDays: tagMap.get("warranty"),
-      priceUsd: raw.price_max || raw.price_min,
-      condition: tagMap.get("condition"),
-      available: raw.available,
-    } as ServerPartsRecord;
-  });
+  return rawRecords
+    .map((raw) => {
+      const tagMap = new Map<string, string>(
+        raw.tags.map((tag: string) => {
+          const delimiterIndex = tag.indexOf(":");
+          return [
+            tag.substring(0, delimiterIndex).trim(),
+            tag.substring(delimiterIndex + 1).trim(),
+          ];
+        }),
+      );
+
+      const priceUsd = raw.price_max || raw.price_min;
+      if (!priceUsd || !Number.isFinite(priceUsd)) return undefined;
+
+      const brand = tagMap.get("brand");
+      if (!brand || typeof brand !== "string") return undefined;
+
+      const series = tagMap.get("series");
+      if (!series) return undefined;
+
+      const formFactor = tagMap.get("formFactor");
+      if (!formFactor) return undefined;
+
+      const _type = tagMap.get("type");
+      if (!_type) return undefined;
+
+      const condition = tagMap.get("condition");
+      if (!condition) return undefined;
+
+      const _interface = tagMap.get("interface");
+      if (!_interface) return undefined;
+
+      const rawInterfaceSpeed = tagMap.get("interfaceSpeed");
+      if (!rawInterfaceSpeed) return undefined;
+
+      const interfaceSpeedGbPerSecond =
+        parseInterfaceSpeedGbPerSecond(rawInterfaceSpeed);
+      if (interfaceSpeedGbPerSecond === undefined) return undefined;
+
+      const capacityRaw = tagMap.get("capacity");
+      if (!capacityRaw) return undefined;
+
+      const capacityGb = parseCapacityGb(capacityRaw);
+      if (!capacityGb) return undefined;
+
+      const warrantyRaw = tagMap.get("warranty");
+      if (!warrantyRaw) return undefined;
+
+      const warrantyDays = parseWarrantyDays(warrantyRaw);
+      if (warrantyDays === undefined) return undefined;
+
+      const record: ServerPartsRecord = {
+        brand,
+        series,
+        sku: raw.skus,
+        capacityGb,
+        formFactor,
+        interfaceSpeedGbPerSecond,
+        interface: _interface,
+        type: _type,
+        warrantyDays,
+        priceUsd,
+        condition,
+      };
+
+      return record;
+    })
+    .filter((r) => r !== undefined);
 }
 
-function parseCapacityGb(capacity: string): number {
+function parseCapacityGb(capacity: string): number | undefined {
   const units = capacity.substring(capacity.length - 2, capacity.length);
   const value = parseFloat(capacity.substring(0, capacity.length - 2));
 
@@ -69,8 +111,31 @@ function parseCapacityGb(capacity: string): number {
     case "GB":
       return value;
     default:
-      throw new Error("Unsupported units", { cause: { units } });
+      return undefined;
   }
+}
+
+function parseInterfaceSpeedGbPerSecond(
+  interfaceSpeed: string,
+): number | undefined {
+  if (!interfaceSpeed.toLowerCase().endsWith("gb/s")) return undefined;
+
+  const gbPerSecond = parseFloat(
+    interfaceSpeed.substring(0, interfaceSpeed.length - 4),
+  );
+  if (!Number.isFinite(gbPerSecond)) return undefined;
+
+  return gbPerSecond;
+}
+
+function parseWarrantyDays(warranty: string): number | undefined {
+  const _warranty = warranty.trim().toLowerCase();
+
+  const value = parseInt(_warranty.substring(0, _warranty.indexOf(" ")));
+  if (_warranty.includes("day")) return value;
+  if (_warranty.includes("year")) return value * 365;
+
+  return undefined;
 }
 
 async function fetchServerPartsData(collection: ServerPartsCollection) {
@@ -107,11 +172,9 @@ async function fetchServerPartsPage(
   params.set("zero_options", `${true}`);
   params.set("build_filter_tree", `${true}`);
 
-  const url = `https://services.mybcapps.com/bc-sf-filter/filter?${params}`;
-  console.log(`Fetching ${url}`);
-
-  const response = await fetch(url, { method: "GET" });
-
+  const response = await fetch(
+    `https://services.mybcapps.com/bc-sf-filter/filter?${params}`,
+  );
   if (!response.ok) throw new Error("Failed to fetch serverpartdeals data");
 
   const content = await response.json();
