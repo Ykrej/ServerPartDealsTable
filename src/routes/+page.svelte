@@ -4,7 +4,7 @@
     let { data } = $props()
     console.log("Item Count", data.serverPartsData.length)
 
-    const columns = ["brand", "capacityGb", "condition", "formFactor", "type", "priceUsd", "sku", "interface", "interfaceSpeed"].map(field => ({
+    const columns = ["brand", "capacityGb", "condition", "formFactor", "type", "priceUsd", "sku", "interface", "interfaceSpeedGbPerSecond", "warrantyDays"].map(field => ({
         field,
         filter: true
     }))
