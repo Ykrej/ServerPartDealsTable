@@ -20,17 +20,24 @@
     { field: 'condition' },
     { field: 'formFactor' },
     { field: 'type' },
-    { 
+    {
       field: 'priceUsd',
       valueFormatter: ({ value }) => {
         if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
 
         return `$${value.toFixed(2)}`
-      }
+      },
     },
     { field: 'sku' },
     { field: 'interface' },
-    { field: 'interfaceSpeedGbPerSecond' },
+    {
+      field: 'interfaceSpeedGbPerSecond',
+      valueFormatter: ({ value }) => {
+        if (typeof value !== 'number' || !Number.isFinite) return `NaN`
+
+        return `${value} GB/s`
+      },
+    },
     { field: 'warrantyDays' },
   ]
 </script>
