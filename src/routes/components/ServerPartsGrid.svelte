@@ -7,6 +7,7 @@
     { field: 'brand' },
     {
       field: 'capacityGb',
+      headerName: 'Capacity',
       valueFormatter: ({ value }) => {
         if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
         if (value > 1000) {
@@ -22,6 +23,7 @@
     { field: 'type' },
     {
       field: 'priceUsd',
+      headerName: 'Price',
       valueFormatter: ({ value }) => {
         if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
 
@@ -32,6 +34,7 @@
     { field: 'interface' },
     {
       field: 'interfaceSpeedGbPerSecond',
+      headerName: 'Interface Speed',
       valueFormatter: ({ value }) => {
         if (typeof value !== 'number' || !Number.isFinite) return `NaN`
 
@@ -40,21 +43,22 @@
     },
     {
       field: 'warrantyDays',
+      headerName: 'Warranty Duration',
       valueFormatter: ({ value }) => {
-        if (typeof value !== 'number' || !Number.isFinite(value)) return "NaN"
+        if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
 
         const totalDays = Math.floor(value)
         const years = Math.floor(totalDays / 365)
         const days = totalDays % 365
-        
+
         let text = ''
         if (years > 0) text += `${years} Year${years > 1 ? 's' : ''}`
         if (days > 0) text += ` ${days} Day${days > 1 ? 's' : ''}`
 
         text = text.trim()
-        
-        return text ? text : "0 Days"
-      }
+
+        return text ? text : '0 Days'
+      },
     },
   ]
 </script>
