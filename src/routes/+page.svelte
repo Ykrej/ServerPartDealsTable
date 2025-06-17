@@ -1,12 +1,7 @@
 <script lang="ts">
-    import Grid from "./components/Grid.svelte";
+  import ServerPartsGrid from './components/ServerPartsGrid.svelte'
 
-    let { data } = $props()
-
-    const columns = ["brand", "capacityGb", "condition", "formFactor", "type", "priceUsd", "sku", "interface", "interfaceSpeedGbPerSecond", "warrantyDays"].map(field => ({
-        field,
-        filter: true
-    }))
+  let { data } = $props()
 </script>
 
-<Grid columnDefs={columns} rowData={data.serverPartsData} />
+<ServerPartsGrid rowData={data.serverPartsData} />
