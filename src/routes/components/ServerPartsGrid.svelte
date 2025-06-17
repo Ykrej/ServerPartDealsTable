@@ -29,7 +29,7 @@
 </script>
 
 <div class="flex">
-  <div class="flex-none w-48">
+  <div class="w-48 flex-none">
     <p>Hello World</p>
   </div>
   <div class="flex-1">
