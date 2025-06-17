@@ -20,7 +20,14 @@
     { field: 'condition' },
     { field: 'formFactor' },
     { field: 'type' },
-    { field: 'priceUsd' },
+    { 
+      field: 'priceUsd',
+      valueFormatter: ({ value }) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
+
+        return `$${value.toFixed(2)}`
+      }
+    },
     { field: 'sku' },
     { field: 'interface' },
     { field: 'interfaceSpeedGbPerSecond' },
