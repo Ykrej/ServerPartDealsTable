@@ -38,7 +38,24 @@
         return `${value} GB/s`
       },
     },
-    { field: 'warrantyDays' },
+    {
+      field: 'warrantyDays',
+      valueFormatter: ({ value }) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) return "NaN"
+
+        const totalDays = Math.floor(value)
+        const years = Math.floor(totalDays / 365)
+        const days = totalDays % 365
+        
+        let text = ''
+        if (years > 0) text += `${years} Year${years > 1 ? 's' : ''}`
+        if (days > 0) text += ` ${days} Day${days > 1 ? 's' : ''}`
+
+        text = text.trim()
+        
+        return text ? text : "0 Days"
+      }
+    },
   ]
 </script>
 
