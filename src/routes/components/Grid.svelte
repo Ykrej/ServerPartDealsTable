@@ -1,26 +1,31 @@
-<script lang="ts"  generics="RowData">
-    import { ModuleRegistry, type GridOptions, createGrid, ClientSideRowModelModule, type GridApi } from "ag-grid-community";
-    import { onMount } from "svelte"
+<script lang="ts" generics="RowData">
+  import {
+    ModuleRegistry,
+    type GridOptions,
+    createGrid,
+    ClientSideRowModelModule,
+  } from 'ag-grid-community'
+  import { onMount } from 'svelte'
 
-    const { columnDefs, rowData } = $props()
+  const { columnDefs, rowData } = $props()
 
-    ModuleRegistry.registerModules([ClientSideRowModelModule]);
+  ModuleRegistry.registerModules([ClientSideRowModelModule])
 
-    let gridDiv: HTMLDivElement;
-    onMount(() => {
-        const gridOptions: GridOptions<RowData> = {
-            columnDefs,
-            rowData: Array.isArray(rowData) ? rowData: [],
-            defaultColDef: {
-                sortable: true,
-                filter: true
-            }
-        }
+  let gridDiv: HTMLDivElement
+  onMount(() => {
+    const gridOptions: GridOptions<RowData> = {
+      columnDefs,
+      rowData: Array.isArray(rowData) ? rowData : [],
+      defaultColDef: {
+        sortable: true,
+        filter: true,
+      },
+    }
 
-        if (gridDiv) {
-            createGrid(gridDiv, gridOptions)
-        }
-    })
+    if (gridDiv) {
+      createGrid(gridDiv, gridOptions)
+    }
+  })
 </script>
 
 <div bind:this={gridDiv} style="height: 100vh"></div>

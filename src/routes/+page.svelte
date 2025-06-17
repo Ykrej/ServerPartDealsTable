@@ -1,7 +1,7 @@
 <script lang="ts">
-    import ServerPartsGrid from "./components/ServerPartsGrid.svelte";
+  import ServerPartsGrid from './components/ServerPartsGrid.svelte'
 
-    let { data } = $props()
+  let { data } = $props()
 </script>
 
 <ServerPartsGrid rowData={data.serverPartsData} />

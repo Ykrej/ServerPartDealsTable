@@ -35,5 +35,22 @@
     "typescript": "^5.0.0",
     "typescript-eslint": "^8.20.0",
     "vite": "^6.2.6"
+  },
+  "prettier": {
+    "trailingComma": "es5",
+    "tabWidth": 2,
+    "semi": false,
+    "singleQuote": true,
+    "plugins": [
+      "prettier-plugin-svelte"
+    ],
+    "overrides": [
+      {
+        "files": "*.svelte",
+        "options": {
+          "parser": "svelte"
+        }
+      }
+    ]
   }
 }
