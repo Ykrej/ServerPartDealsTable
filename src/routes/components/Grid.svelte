@@ -5,12 +5,17 @@
     createGrid,
     ClientSideRowModelModule,
     NumberFilterModule,
+    TextFilterModule,
   } from 'ag-grid-community'
   import { onMount } from 'svelte'
 
   let { columnDefs, rowData, gridApi = $bindable() } = $props()
 
-  ModuleRegistry.registerModules([ClientSideRowModelModule, NumberFilterModule])
+  ModuleRegistry.registerModules([
+    ClientSideRowModelModule,
+    NumberFilterModule,
+    TextFilterModule,
+  ])
 
   let gridDiv: HTMLDivElement
   onMount(() => {

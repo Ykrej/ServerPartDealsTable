@@ -2,23 +2,17 @@
   import type { ColDef, GridApi } from 'ag-grid-community'
   import Grid from './Grid.svelte'
   import type { ServerPartsRecord } from '../../clientLib/serverPartDeals'
+  import Spinner from './Spinner.svelte'
+  import RadioButtonFilter from './RadioButtonFilter.svelte'
 
   const { rowData } = $props()
 
   let gridApi: GridApi | undefined = $state()
-  $effect(() => {
-    // gridApi?.setFilterModel({
-    //   capacityGb: {
-    //     filterType: 'number',
-    //     type: 'lessThan',
-    //     filter: 2000,
-    //   },
-    // })
-  })
 
   const columnDefs: ColDef[] = [
     { field: 'brand' },
     {
+      field: 'capacityGb',
       headerName: 'Capacity',
       valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
         if (!Number.isFinite(data.capacityGb)) return 'NaN'
@@ -34,12 +28,14 @@
     { field: 'formFactor' },
     { field: 'type' },
     {
+      colId: 'pricePerCapacity',
       headerName: 'Price / Capacity',
       valueGetter: ({ data }: { data: ServerPartsRecord }) => {
         return `$${(data.priceUsd / (data.capacityGb / 1000)).toFixed(2)} / TB`
       },
     },
     {
+      field: 'priceUsd',
       headerName: 'Price',
       valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
         if (!Number.isFinite(data.priceUsd)) return 'NaN'
@@ -50,6 +46,7 @@
     { field: 'sku' },
     { field: 'interface' },
     {
+      field: 'interfaceSpeed',
       headerName: 'Interface Speed',
       valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
         if (!Number.isFinite(data.interfaceSpeedGbPerSecond)) return `NaN`
@@ -58,6 +55,7 @@
       },
     },
     {
+      field: 'warrantyDays',
       headerName: 'Warranty Duration',
       valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
         if (!Number.isFinite(data.warrantyDays)) return 'NaN'
@@ -79,8 +77,12 @@
 </script>
 
 <div class="flex">
-  <div class="w-48 flex-none">
-    <p>Hello World</p>
+  <div class="h-screen w-48 flex-none">
+    {#if gridApi}
+      <RadioButtonFilter {gridApi} {rowData} column="type" field="type" />
+    {:else}
+      <Spinner class="justify-items-end bg-red-500" />
+    {/if}
   </div>
   <div class="flex-1">
     <Grid bind:gridApi {rowData} {columnDefs} />
