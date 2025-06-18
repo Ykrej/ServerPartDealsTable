@@ -1,4 +1,5 @@
 <script lang="ts" generics="RowData">
+  import { dev } from '$app/environment'
   import {
     ModuleRegistry,
     type GridOptions,
@@ -8,6 +9,7 @@
     NumberFilterModule,
     TextFilterModule,
     type ColDef,
+    ValidationModule,
   } from 'ag-grid-community'
   import { onMount } from 'svelte'
 
@@ -21,11 +23,13 @@
     gridApi: GridApi<RowData> | undefined
   } = $props()
 
-  ModuleRegistry.registerModules([
+  const modules = [
     ClientSideRowModelModule,
     NumberFilterModule,
     TextFilterModule,
-  ])
+  ]
+  if (dev) modules.push(ValidationModule)
+  ModuleRegistry.registerModules(modules)
 
   let gridDiv: HTMLDivElement
   onMount(() => {
