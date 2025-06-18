@@ -4,6 +4,11 @@ export enum ServerPartsCollection {
   HARD_DRIVES = 167154516010,
 }
 
+const collectionSlugMap = new Map<ServerPartsCollection, string>([
+  [ServerPartsCollection.HARD_DRIVES, 'hard-drives'],
+  [ServerPartsCollection.SOLID_STATE_DRIVES, 'solid-state-drives'],
+])
+
 export type ServerPartsRecord = {
   brand: string
   series: string
@@ -16,6 +21,7 @@ export type ServerPartsRecord = {
   type: string
   warrantyDays: number
   priceUsd: number
+  link: string
 }
 
 export async function getServerPartsRecords(collection: ServerPartsCollection) {
@@ -53,6 +59,13 @@ export async function getServerPartsRecords(collection: ServerPartsCollection) {
       const _interface = tagMap.get('interface')
       if (!_interface) return undefined
 
+      const collectionSlug = collectionSlugMap.get(collection)
+      if (collectionSlug === undefined) return undefined
+
+      const recordSlug = raw.handle
+      if (!recordSlug || typeof recordSlug !== 'string') return undefined
+      const link = `https://serverpartdeals.com/collections/${collectionSlug}/products/${recordSlug}`
+
       const rawInterfaceSpeed = tagMap.get('interfaceSpeed')
       if (!rawInterfaceSpeed) return undefined
 
@@ -84,6 +97,7 @@ export async function getServerPartsRecords(collection: ServerPartsCollection) {
         warrantyDays,
         priceUsd,
         condition,
+        link,
       }
 
       return record
