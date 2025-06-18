@@ -31,7 +31,11 @@
       colId: 'pricePerCapacity',
       headerName: 'Price / Capacity',
       valueGetter: ({ data }: { data: ServerPartsRecord }) => {
-        return `$${(data.priceUsd / (data.capacityGb / 1000)).toFixed(2)} / TB`
+        return data.priceUsd / (data.capacityGb / 1000)
+      },
+      valueFormatter: ({ value }: { value: number }) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
+        return `$${value.toFixed(2)} / TB`
       },
     },
     {
