@@ -3,7 +3,7 @@
   import Grid from './Grid.svelte'
   import type { ServerPartsRecord } from '../../clientLib/serverPartDeals'
   import Spinner from './Spinner.svelte'
-  import RadioButtonFilter from './RadioButtonFilter.svelte'
+  import CheckBoxFilter from './CheckBoxFilter.svelte'
 
   const { rowData } = $props()
 
@@ -81,7 +81,16 @@
     {#if gridApi}
       <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
         <span>Storage Type</span>
-        <RadioButtonFilter {gridApi} {rowData} column="type" field="type" />
+        <CheckBoxFilter {gridApi} {rowData} column="type" field="type" />
+      </div>
+      <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
+        <span>Interface</span>
+        <CheckBoxFilter
+          {gridApi}
+          {rowData}
+          column="interface"
+          field="interface"
+        />
       </div>
     {:else}
       <Spinner class="justify-items-end" />

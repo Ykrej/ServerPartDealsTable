@@ -2,14 +2,24 @@
   import {
     ModuleRegistry,
     type GridOptions,
+    type GridApi,
     createGrid,
     ClientSideRowModelModule,
     NumberFilterModule,
     TextFilterModule,
+    type ColDef,
   } from 'ag-grid-community'
   import { onMount } from 'svelte'
 
-  let { columnDefs, rowData, gridApi = $bindable() } = $props()
+  let {
+    columnDefs,
+    rowData,
+    gridApi = $bindable(),
+  }: {
+    columnDefs: ColDef[]
+    rowData: RowData[]
+    gridApi: GridApi<RowData> | undefined
+  } = $props()
 
   ModuleRegistry.registerModules([
     ClientSideRowModelModule,
@@ -25,6 +35,9 @@
       defaultColDef: {
         sortable: true,
         filter: true,
+        filterParams: {
+          maxNumConditions: 99,
+        },
       },
     }
 

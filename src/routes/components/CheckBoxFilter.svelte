@@ -17,27 +17,42 @@
   const options = Array.from(
     new Set(rowData.map((record) => record[field]))
   ).sort()
-  let selected = $state(options[0])
+  let selected = $state(Array.from({ length: options.length }).map(() => true))
 
   $effect(() => {
-    if (!selected) return
-    gridApi
-      .setColumnFilterModel(column, {
+    const filterValues = selected
+      .map((s, i) => (s ? options[i] : false))
+      .filter((v) => !!v)
+    if (!filterValues) {
+      gridApi
+        .setColumnFilterModel(column, {})
+        .then(() => gridApi.onFilterChanged())
+      return
+    }
+
+    const filter = {
+      filterType: 'text',
+      operator: 'OR',
+      conditions: filterValues.map((val) => ({
         filterType: 'text',
         type: 'equals',
-        filter: selected,
-      })
+        filter: val,
+      })),
+    }
+
+    gridApi
+      .setColumnFilterModel(column, filter)
       .then(() => gridApi.onFilterChanged())
   })
 </script>
 
 <div>
-  {#each options as option (`${uid}-${option}`)}
+  {#each options as option, i (`${uid}-${option}`)}
     <div>
       <input
-        type="radio"
+        type="checkbox"
         id={`${uid}-${option}`}
-        bind:group={selected}
+        bind:checked={selected[i]}
         value={option}
       />
       <label for={`${uid}-${option}`}>{option}</label>
