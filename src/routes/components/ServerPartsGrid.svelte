@@ -87,7 +87,7 @@
       filter: false,
       sortable: false,
       resizable: false,
-      width:42,
+      width: 42,
       cellRenderer: ({ value }: { value: string }) => {
         let element = document.createElement('div')
 
