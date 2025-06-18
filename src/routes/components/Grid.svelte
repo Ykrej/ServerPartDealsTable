@@ -10,6 +10,7 @@
     TextFilterModule,
     type ColDef,
     ValidationModule,
+    themeBalham,
   } from 'ag-grid-community'
   import { onMount } from 'svelte'
 
@@ -35,6 +36,7 @@
   onMount(() => {
     const gridOptions: GridOptions<RowData> = {
       columnDefs,
+      theme: themeBalham,
       rowData: Array.isArray(rowData) ? rowData : [],
       defaultColDef: {
         sortable: true,
