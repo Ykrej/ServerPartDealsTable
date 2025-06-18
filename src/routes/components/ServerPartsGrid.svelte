@@ -74,24 +74,32 @@
       },
     },
   ].map((baseFilter) => ({ ...baseFilter, suppressHeaderFilterButton: true }))
+
+  const checkboxFilterDefs = [
+    {
+      label: 'Storage Type',
+      column: 'type',
+    },
+    {
+      label: 'Interface',
+      column: 'interface',
+    },
+    {
+      label: 'Form Factor',
+      column: 'formFactor',
+    },
+  ]
 </script>
 
 <div class="flex">
   <div class="h-screen w-48 flex-none">
     {#if gridApi}
-      <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
-        <span>Storage Type</span>
-        <CheckBoxFilter {gridApi} {rowData} column="type" field="type" />
-      </div>
-      <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
-        <span>Interface</span>
-        <CheckBoxFilter
-          {gridApi}
-          {rowData}
-          column="interface"
-          field="interface"
-        />
-      </div>
+      {#each checkboxFilterDefs as { label, column }}
+        <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
+          <span>{label}</span>
+          <CheckBoxFilter {gridApi} {rowData} {column} field={column} />
+        </div>
+      {/each}
     {:else}
       <Spinner class="justify-items-end" />
     {/if}
