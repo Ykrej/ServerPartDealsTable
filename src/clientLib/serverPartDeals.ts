@@ -61,7 +61,7 @@ export async function getServerPartsRecords(collection: ServerPartsCollection) {
 
       const rawSkus = raw.skus
       if (!rawSkus || !Array.isArray(rawSkus)) return undefined
-      const sku = rawSkus.join("/")
+      const sku = rawSkus.join('/')
 
       const collectionSlug = collectionSlugMap.get(collection)
       if (collectionSlug === undefined) return undefined
