@@ -1,13 +1,3 @@
-import type { PageLoad } from './$types'
-
-export const load: PageLoad = async () => {
-  return {
-    serverPartsData: await getServerPartsRecords(
-      ServerPartsCollection.SOLID_STATE_DRIVES
-    ),
-  }
-}
-
 const PAGE_SIZE = 70
 export enum ServerPartsCollection {
   SOLID_STATE_DRIVES = 167154483242,
