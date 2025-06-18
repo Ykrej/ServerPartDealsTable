@@ -1,5 +1,11 @@
 {
   "extends": "./.svelte-kit/tsconfig.json",
+  "paths": {
+    "$lib": ["../src/lib"],
+    "$lib/*": ["../src/lib/*"],
+    "$clientLib": ["../src/clientLib"],
+    "$clientLib/*": ["../src/clientLib/*"]
+  },
   "compilerOptions": {
     "allowJs": true,
     "checkJs": true,
