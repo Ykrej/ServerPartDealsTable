@@ -83,7 +83,7 @@
     {
       field: 'link',
       headerName: '',
-      pinned: 'right',
+      pinned: 'right' as const,
       filter: false,
       sortable: false,
       cellRenderer: ({ value }: { value: string }) => {
