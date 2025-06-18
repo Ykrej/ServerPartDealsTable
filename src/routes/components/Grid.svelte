@@ -49,7 +49,7 @@
       },
       autoSizeStrategy: {
         type: 'fitCellContents',
-      }
+      },
     }
 
     if (gridDiv) {
