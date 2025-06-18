@@ -5,6 +5,7 @@
   import Spinner from './Spinner.svelte'
   import CheckBoxFilter from './CheckBoxFilter.svelte'
 
+  const uid = $props.id()
   const { rowData } = $props()
 
   let gridApi: GridApi | undefined = $state()
@@ -102,7 +103,7 @@
 <div class="flex">
   <div class="h-screen w-48 flex-none">
     {#if gridApi}
-      {#each checkboxFilterDefs as { label, column }}
+      {#each checkboxFilterDefs as { label, column } (`${uid}-${column}`)}
         <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
           <span>{label}</span>
           <CheckBoxFilter {gridApi} {rowData} {column} field={column} />
