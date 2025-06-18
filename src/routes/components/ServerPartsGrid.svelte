@@ -5,6 +5,7 @@
   import Spinner from './Spinner.svelte'
   import CheckBoxFilter from './CheckBoxFilter.svelte'
 
+  const uid = $props.id()
   const { rowData } = $props()
 
   let gridApi: GridApi | undefined = $state()
@@ -31,7 +32,11 @@
       colId: 'pricePerCapacity',
       headerName: 'Price / Capacity',
       valueGetter: ({ data }: { data: ServerPartsRecord }) => {
-        return `$${(data.priceUsd / (data.capacityGb / 1000)).toFixed(2)} / TB`
+        return data.priceUsd / (data.capacityGb / 1000)
+      },
+      valueFormatter: ({ value }: { value: number }) => {
+        if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
+        return `$${value.toFixed(2)} / TB`
       },
     },
     {
@@ -74,24 +79,36 @@
       },
     },
   ].map((baseFilter) => ({ ...baseFilter, suppressHeaderFilterButton: true }))
+
+  const checkboxFilterDefs = [
+    {
+      label: 'Storage Type',
+      column: 'type',
+    },
+    {
+      label: 'Condition',
+      column: 'condition',
+    },
+    {
+      label: 'Interface',
+      column: 'interface',
+    },
+    {
+      label: 'Form Factor',
+      column: 'formFactor',
+    },
+  ]
 </script>
 
 <div class="flex">
   <div class="h-screen w-48 flex-none">
     {#if gridApi}
-      <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
-        <span>Storage Type</span>
-        <CheckBoxFilter {gridApi} {rowData} column="type" field="type" />
-      </div>
-      <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
-        <span>Interface</span>
-        <CheckBoxFilter
-          {gridApi}
-          {rowData}
-          column="interface"
-          field="interface"
-        />
-      </div>
+      {#each checkboxFilterDefs as { label, column } (`${uid}-${column}`)}
+        <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
+          <span>{label}</span>
+          <CheckBoxFilter {gridApi} {rowData} {column} field={column} />
+        </div>
+      {/each}
     {:else}
       <Spinner class="justify-items-end" />
     {/if}
