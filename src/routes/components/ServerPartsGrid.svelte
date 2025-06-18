@@ -4,6 +4,8 @@
   import type { ServerPartsRecord } from '../../clientLib/serverPartDeals'
   import Spinner from './Spinner.svelte'
   import CheckBoxFilter from './CheckBoxFilter.svelte'
+  import { mount } from 'svelte'
+  import CellLink from './CellLink.svelte'
 
   const uid = $props.id()
   const { rowData } = $props()
@@ -76,6 +78,23 @@
         text = text.trim()
 
         return text ? text : '0 Days'
+      },
+    },
+    {
+      field: 'link',
+      headerName: '',
+      pinned: 'right',
+      filter: false,
+      sortable: false,
+      cellRenderer: ({ value }: { value: string }) => {
+        let element = document.createElement('div')
+
+        mount(CellLink, {
+          target: element,
+          props: { href: value },
+        })
+
+        return element
       },
     },
   ].map((baseFilter) => ({ ...baseFilter, suppressHeaderFilterButton: true }))
