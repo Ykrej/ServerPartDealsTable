@@ -36,12 +36,14 @@
 
 <div>
   {#each options as option (`${uid}-${option}`)}
-    <input
-      type="radio"
-      id={`${uid}-${option}`}
-      bind:group={selected}
-      value={option}
-    />
-    <label for={`${uid}-${option}`}>{option}</label>
+    <div>
+      <input
+        type="radio"
+        id={`${uid}-${option}`}
+        bind:group={selected}
+        value={option}
+      />
+      <label for={`${uid}-${option}`}>{option}</label>
+    </div>
   {/each}
 </div>

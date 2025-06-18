@@ -79,7 +79,10 @@
 <div class="flex">
   <div class="h-screen w-48 flex-none">
     {#if gridApi}
-      <RadioButtonFilter {gridApi} {rowData} column="type" field="type" />
+      <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
+        <span>Storage Type</span>
+        <RadioButtonFilter {gridApi} {rowData} column="type" field="type" />
+      </div>
     {:else}
       <Spinner class="justify-items-end bg-red-500" />
     {/if}
