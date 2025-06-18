@@ -85,6 +85,10 @@
       column: 'type',
     },
     {
+      label: 'Condition',
+      column: 'condition',
+    },
+    {
       label: 'Interface',
       column: 'interface',
     },
