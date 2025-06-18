@@ -21,16 +21,14 @@
 
   $effect(() => {
     if (!selected) return
-    gridApi.setFilterModel({
-      ...gridApi.getFilterModel(),
-      [column]: {
+    gridApi.setColumnFilterModel(
+      column, 
+      {
         filterType: 'text',
         type: 'equals',
         filter: selected,
       },
-    })
-    console.log('Set Filter', selected)
-    console.log('Current Filter', gridApi.getFilterModel())
+    ).then(() => gridApi.onFilterChanged())
   })
 </script>
 
