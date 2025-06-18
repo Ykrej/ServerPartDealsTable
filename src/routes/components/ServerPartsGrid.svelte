@@ -84,7 +84,7 @@
         <RadioButtonFilter {gridApi} {rowData} column="type" field="type" />
       </div>
     {:else}
-      <Spinner class="justify-items-end bg-red-500" />
+      <Spinner class="justify-items-end" />
     {/if}
   </div>
   <div class="flex-1">
