@@ -11,6 +11,7 @@
     type ColDef,
     ValidationModule,
     themeBalham,
+    ColumnAutoSizeModule,
   } from 'ag-grid-community'
   import { onMount } from 'svelte'
 
@@ -28,6 +29,7 @@
     ClientSideRowModelModule,
     NumberFilterModule,
     TextFilterModule,
+    ColumnAutoSizeModule,
   ]
   if (dev) modules.push(ValidationModule)
   ModuleRegistry.registerModules(modules)
@@ -45,6 +47,9 @@
           maxNumConditions: 99,
         },
       },
+      autoSizeStrategy: {
+        type: 'fitCellContents',
+      }
     }
 
     if (gridDiv) {
