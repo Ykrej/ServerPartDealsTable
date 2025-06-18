@@ -1,53 +1,66 @@
 <script lang="ts">
-  import type { ColDef } from 'ag-grid-community'
+  import type { ColDef, GridApi } from 'ag-grid-community'
   import Grid from './Grid.svelte'
+  import type { ServerPartsRecord } from '../../clientLib/serverPartDeals'
+  import Spinner from './Spinner.svelte'
+  import RadioButtonFilter from './RadioButtonFilter.svelte'
 
   const { rowData } = $props()
+
+  let gridApi: GridApi | undefined = $state()
+
   const columnDefs: ColDef[] = [
     { field: 'brand' },
     {
       field: 'capacityGb',
       headerName: 'Capacity',
-      valueFormatter: ({ value }) => {
-        if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
-        if (value > 1000) {
-          const terabytes = value / 1000
+      valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
+        if (!Number.isFinite(data.capacityGb)) return 'NaN'
+        if (data.capacityGb >= 1000) {
+          const terabytes = data.capacityGb / 1000
           if (terabytes % 1 !== 0) return `${terabytes.toFixed(2)} TB`
           return `${terabytes} TB`
         }
-        return `${value} GB`
+        return `${data.capacityGb} GB`
       },
     },
     { field: 'condition' },
     { field: 'formFactor' },
     { field: 'type' },
     {
+      colId: 'pricePerCapacity',
+      headerName: 'Price / Capacity',
+      valueGetter: ({ data }: { data: ServerPartsRecord }) => {
+        return `$${(data.priceUsd / (data.capacityGb / 1000)).toFixed(2)} / TB`
+      },
+    },
+    {
       field: 'priceUsd',
       headerName: 'Price',
-      valueFormatter: ({ value }) => {
-        if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
+      valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
+        if (!Number.isFinite(data.priceUsd)) return 'NaN'
 
-        return `$${value.toFixed(2)}`
+        return `$${data.priceUsd.toFixed(2)}`
       },
     },
     { field: 'sku' },
     { field: 'interface' },
     {
-      field: 'interfaceSpeedGbPerSecond',
+      field: 'interfaceSpeed',
       headerName: 'Interface Speed',
-      valueFormatter: ({ value }) => {
-        if (typeof value !== 'number' || !Number.isFinite) return `NaN`
+      valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
+        if (!Number.isFinite(data.interfaceSpeedGbPerSecond)) return `NaN`
 
-        return `${value} GB/s`
+        return `${data.interfaceSpeedGbPerSecond} GB/s`
       },
     },
     {
       field: 'warrantyDays',
       headerName: 'Warranty Duration',
-      valueFormatter: ({ value }) => {
-        if (typeof value !== 'number' || !Number.isFinite(value)) return 'NaN'
+      valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
+        if (!Number.isFinite(data.warrantyDays)) return 'NaN'
 
-        const totalDays = Math.floor(value)
+        const totalDays = Math.floor(data.warrantyDays)
         const years = Math.floor(totalDays / 365)
         const days = totalDays % 365
 
@@ -60,14 +73,21 @@
         return text ? text : '0 Days'
       },
     },
-  ]
+  ].map((baseFilter) => ({ ...baseFilter, suppressHeaderFilterButton: true }))
 </script>
 
 <div class="flex">
-  <div class="w-48 flex-none">
-    <p>Hello World</p>
+  <div class="h-screen w-48 flex-none">
+    {#if gridApi}
+      <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
+        <span>Storage Type</span>
+        <RadioButtonFilter {gridApi} {rowData} column="type" field="type" />
+      </div>
+    {:else}
+      <Spinner class="justify-items-end bg-red-500" />
+    {/if}
   </div>
   <div class="flex-1">
-    <Grid {rowData} {columnDefs} />
+    <Grid bind:gridApi {rowData} {columnDefs} />
   </div>
 </div>
