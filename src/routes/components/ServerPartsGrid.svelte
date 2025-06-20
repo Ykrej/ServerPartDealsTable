@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ColDef, GridApi } from 'ag-grid-community'
+  import type { ColDef, GridApi, SortDirection } from 'ag-grid-community'
   import Grid from './Grid.svelte'
   import type { ServerPartsRecord } from '../../clientLib/serverPartDeals'
   import Spinner from './Spinner.svelte'
@@ -16,6 +16,7 @@
     {
       colId: 'pricePerCapacity',
       headerName: 'Price / Capacity',
+      initialSort: 'asc' as SortDirection,
       valueGetter: ({ data }: { data: ServerPartsRecord }) => {
         return data.priceUsd / (data.capacityGb / 1000)
       },
