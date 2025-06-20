@@ -57,19 +57,19 @@
       type="number"
       id={`${uid}-min`}
       placeholder={placeholder ?? ''}
-      class="w-12"
+      class="w-16"
       bind:value={min}
     />
-    <label for={`${uid}-min`} class="flex-grow">Minimum</label>
+    <label for={`${uid}-min`}>Minimum</label>
   </div>
   <div>
     <input
       type="number"
       id={`${uid}-max`}
       placeholder={placeholder ?? ''}
-      class="w-12"
+      class="w-16"
       bind:value={max}
     />
-    <label for={`${uid}-max`} class="flex-grow">Maximum</label>
+    <label for={`${uid}-max`}>Maximum</label>
   </div>
 </div>
