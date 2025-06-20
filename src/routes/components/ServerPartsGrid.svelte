@@ -6,9 +6,13 @@
   import CheckBoxFilter from './CheckBoxFilter.svelte'
   import { mount } from 'svelte'
   import CellLink from './CellLink.svelte'
+  import RangeFilter from './RangeFilter.svelte'
 
   const uid = $props.id()
   const { rowData } = $props()
+
+  const filterDivClass =
+    'm-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md'
 
   let gridApi: GridApi | undefined = $state()
 
@@ -125,11 +129,29 @@
   <div class="h-screen w-48 flex-none">
     {#if gridApi}
       {#each checkboxFilterDefs as { label, column } (`${uid}-${column}`)}
-        <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
+        <div class={filterDivClass}>
           <span>{label}</span>
           <CheckBoxFilter {gridApi} {rowData} {column} field={column} />
         </div>
       {/each}
+      <div class={filterDivClass}>
+        <span>Capacity</span>
+        <RangeFilter
+          {gridApi}
+          column="capacityGb"
+          placeholder="TB"
+          valueGetter={(value) => value * 1000}
+        />
+      </div>
+      <div class={filterDivClass}>
+        <span>Warranty Months</span>
+        <RangeFilter
+          {gridApi}
+          column="warrantyDays"
+          placeholder="Months"
+          valueGetter={(value) => value * 30}
+        />
+      </div>
     {:else}
       <Spinner class="justify-items-end" />
     {/if}
