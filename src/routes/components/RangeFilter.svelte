@@ -7,11 +7,15 @@
     gridApi,
     column,
     placeholder,
+    valueGetter,
   }: {
     gridApi: GridApi<TData>
     column: string
     placeholder?: string
+    valueGetter?: (value: number) => number
   } = $props()
+
+  valueGetter = valueGetter ?? ((value: number) => value)
 
   let min: number | null = $state(null)
   let max: number | null = $state(null)
@@ -23,14 +27,14 @@
       conditions.push({
         filterType: 'number',
         type: 'greaterThanOrEqual',
-        filter: min * 1000,
+        filter: valueGetter(min),
       })
 
     if (typeof max === 'number')
       conditions.push({
         filterType: 'number',
         type: 'lessThanOrEqual',
-        filter: max * 1000,
+        filter: valueGetter(max),
       })
 
     let filter

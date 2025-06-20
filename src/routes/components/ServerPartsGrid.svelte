@@ -11,6 +11,9 @@
   const uid = $props.id()
   const { rowData } = $props()
 
+  const filterDivClass =
+    'm-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md'
+
   let gridApi: GridApi | undefined = $state()
 
   const columnDefs: ColDef[] = [
@@ -126,14 +129,19 @@
   <div class="h-screen w-48 flex-none">
     {#if gridApi}
       {#each checkboxFilterDefs as { label, column } (`${uid}-${column}`)}
-        <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
+        <div class={filterDivClass}>
           <span>{label}</span>
           <CheckBoxFilter {gridApi} {rowData} {column} field={column} />
         </div>
       {/each}
-      <div class="m-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md">
+      <div class={filterDivClass}>
         <span>Capacity</span>
-        <RangeFilter {gridApi} column="capacityGb" placeholder="TB" />
+        <RangeFilter
+          {gridApi}
+          column="capacityGb"
+          placeholder="TB"
+          valueGetter={(value) => value * 1000}
+        />
       </div>
     {:else}
       <Spinner class="justify-items-end" />
