@@ -53,17 +53,22 @@
     },
     {
       field: 'warrantyDays',
-      headerName: 'Warranty Duration',
+      headerName: 'Warranty',
       valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
         if (!Number.isFinite(data.warrantyDays)) return 'NaN'
 
-        const totalDays = Math.floor(data.warrantyDays)
-        const years = Math.floor(totalDays / 365)
-        const days = totalDays % 365
+        let remainingDays = Math.floor(data.warrantyDays)
+        const years = Math.floor(remainingDays / 365)
+        remainingDays = remainingDays % 365
+
+        const months = Math.floor(remainingDays / 30)
+        remainingDays = remainingDays % 30
 
         let text = ''
         if (years > 0) text += `${years} Year${years > 1 ? 's' : ''}`
-        if (days > 0) text += ` ${days} Day${days > 1 ? 's' : ''}`
+        if (months > 0) text += ` ${months} Month${months > 1 ? 's' : ''}`
+        if (remainingDays > 0)
+          text += ` ${remainingDays} Day${remainingDays > 1 ? 's' : ''}`
 
         text = text.trim()
 
