@@ -74,7 +74,7 @@
       headerName: 'Interface Speed',
       valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
         if (!Number.isFinite(data.interfaceSpeedGbPerSecond)) return `NaN`
-        
+
         return `${data.interfaceSpeedGbPerSecond} GB/s`
       },
     },
