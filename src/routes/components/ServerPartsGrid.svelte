@@ -13,23 +13,6 @@
   let gridApi: GridApi | undefined = $state()
 
   const columnDefs: ColDef[] = [
-    { field: 'brand' },
-    {
-      field: 'capacityGb',
-      headerName: 'Capacity',
-      valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
-        if (!Number.isFinite(data.capacityGb)) return 'NaN'
-        if (data.capacityGb >= 1000) {
-          const terabytes = data.capacityGb / 1000
-          if (terabytes % 1 !== 0) return `${terabytes.toFixed(2)} TB`
-          return `${terabytes} TB`
-        }
-        return `${data.capacityGb} GB`
-      },
-    },
-    { field: 'condition' },
-    { field: 'formFactor' },
-    { field: 'type' },
     {
       colId: 'pricePerCapacity',
       headerName: 'Price / Capacity',
@@ -50,15 +33,17 @@
         return `$${data.priceUsd.toFixed(2)}`
       },
     },
-    { field: 'sku' },
-    { field: 'interface' },
     {
-      field: 'interfaceSpeed',
-      headerName: 'Interface Speed',
+      field: 'capacityGb',
+      headerName: 'Capacity',
       valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
-        if (!Number.isFinite(data.interfaceSpeedGbPerSecond)) return `NaN`
-
-        return `${data.interfaceSpeedGbPerSecond} GB/s`
+        if (!Number.isFinite(data.capacityGb)) return 'NaN'
+        if (data.capacityGb >= 1000) {
+          const terabytes = data.capacityGb / 1000
+          if (terabytes % 1 !== 0) return `${terabytes.toFixed(2)} TB`
+          return `${terabytes} TB`
+        }
+        return `${data.capacityGb} GB`
       },
     },
     {
@@ -80,6 +65,20 @@
         return text ? text : '0 Days'
       },
     },
+    { field: 'interface' },
+    { field: 'formFactor' },
+    { field: 'condition' },
+    { field: 'type' },
+    {
+      field: 'interfaceSpeed',
+      headerName: 'Interface Speed',
+      valueFormatter: ({ data }: { data: ServerPartsRecord }) => {
+        if (!Number.isFinite(data.interfaceSpeedGbPerSecond)) return `NaN`
+        
+        return `${data.interfaceSpeedGbPerSecond} GB/s`
+      },
+    },
+    { field: 'brand' },
     {
       field: 'link',
       headerName: '',
