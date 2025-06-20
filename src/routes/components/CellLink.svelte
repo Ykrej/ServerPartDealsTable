@@ -2,7 +2,7 @@
   const { href } = $props()
 </script>
 
-<a {href} target="_blank">
+<a {href} target="_blank" aria-label="Table link">
   <svg
     xmlns="http://www.w3.org/2000/svg"
     fill="none"
