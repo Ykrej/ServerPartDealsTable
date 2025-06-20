@@ -143,6 +143,15 @@
           valueGetter={(value) => value * 1000}
         />
       </div>
+      <div class={filterDivClass}>
+        <span>Warranty Months</span>
+        <RangeFilter
+          {gridApi}
+          column="warrantyDays"
+          placeholder="Months"
+          valueGetter={(value) => value * 30}
+        />
+      </div>
     {:else}
       <Spinner class="justify-items-end" />
     {/if}
