@@ -161,7 +161,10 @@
         </div>
       {:else}
         <div class="flex h-full flex-col pt-1">
-          <HamburgerIcon />
+          <div class="flex w-full">
+            <span class="flex-grow"></span>
+            <HamburgerIcon />
+          </div>
           <span class="flex-grow"></span>
           <span class="-rotate-90 font-semibold">Filters</span>
           <span class="flex-grow"></span>
