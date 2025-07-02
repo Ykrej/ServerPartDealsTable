@@ -16,7 +16,7 @@
   let filterMenuOpen = $state(true)
 
   const filterDivClass =
-    'm-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md'
+    'm-1 w-46 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md'
 
   let gridApi: GridApi | undefined = $state()
 
@@ -142,7 +142,11 @@
 </script>
 
 <div class="flex">
-  <div class="h-screen flex-none {filterMenuOpen ? 'w-48' : 'w-6'}">
+  <div
+    class="h-screen flex-none duration-200 ease-in {filterMenuOpen
+      ? 'w-48'
+      : 'w-6'}"
+  >
     <button
       onclick={() => (filterMenuOpen = !filterMenuOpen)}
       class="m-0 w-full drop-shadow-sm hover:bg-sky-50 hover:drop-shadow-md {filterMenuOpen
@@ -151,7 +155,7 @@
     >
       {#if filterMenuOpen}
         <div class="flex p-1 px-2">
-          <span>Filters</span>
+          <span class="font-semibold">Filters</span>
           <span class="flex-grow"></span>
           <CloseIcon />
         </div>
@@ -159,7 +163,7 @@
         <div class="flex h-full flex-col pt-1">
           <HamburgerIcon />
           <span class="flex-grow"></span>
-          <span class="-rotate-90">Filters</span>
+          <span class="-rotate-90 font-semibold">Filters</span>
           <span class="flex-grow"></span>
         </div>
       {/if}
