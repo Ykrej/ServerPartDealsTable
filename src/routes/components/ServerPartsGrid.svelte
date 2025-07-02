@@ -10,6 +10,7 @@
 
   const uid = $props.id()
   const { rowData } = $props()
+  let filterMenuOpen = $state(true)
 
   const filterDivClass =
     'm-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md'
@@ -138,8 +139,13 @@
 </script>
 
 <div class="flex">
-  <div class="h-screen w-48 flex-none">
-    {#if gridApi}
+  <div class="h-screen flex-none {filterMenuOpen ? 'w-48' : 'w-6'}">
+    <button onclick={() => filterMenuOpen = !filterMenuOpen} class="w-full drop-shadow-sm hover:bg-sky-100 hover:drop-shadow-md m-0 {filterMenuOpen ? '' : 'h-screen'}">
+      <div class="flex {filterMenuOpen ? 'p-1 px-2' : ''}">
+        <span class={filterMenuOpen ? '' : 'rotate-270'}>Filters</span>
+      </div>
+    </button>
+    {#if gridApi && filterMenuOpen}
       {#each checkboxFilterDefs as { label, column } (`${uid}-${column}`)}
         <div class={filterDivClass}>
           <span>{label}</span>
@@ -164,7 +170,7 @@
           valueGetter={(value) => value * 30}
         />
       </div>
-    {:else}
+    {:else if filterMenuOpen}
       <Spinner class="justify-items-end" />
     {/if}
   </div>
