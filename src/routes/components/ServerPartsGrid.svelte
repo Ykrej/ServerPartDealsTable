@@ -12,7 +12,8 @@
 
   const uid = $props.id()
   const { rowData } = $props()
-  let filterMenuOpen = $state(false)
+  
+  let filterMenuOpen = $state(true)
 
   const filterDivClass =
     'm-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md'
