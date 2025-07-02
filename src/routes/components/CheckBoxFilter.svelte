@@ -23,9 +23,9 @@
     const filterValues = selected
       .map((s, i) => (s ? options[i] : false))
       .filter((v) => !!v)
-    if (!filterValues) {
+    if (!filterValues || filterValues.length === options.length) {
       gridApi
-        .setColumnFilterModel(column, {})
+        .setColumnFilterModel(column, null)
         .then(() => gridApi.onFilterChanged())
       return
     }
