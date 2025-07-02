@@ -47,9 +47,6 @@
           maxNumConditions: 99,
         },
       },
-      autoSizeStrategy: {
-        type: 'fitCellContents',
-      },
     }
 
     if (gridDiv) {
