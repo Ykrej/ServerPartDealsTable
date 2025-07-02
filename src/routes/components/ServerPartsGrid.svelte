@@ -7,10 +7,12 @@
   import { mount } from 'svelte'
   import CellLink from './CellLink.svelte'
   import RangeFilter from './RangeFilter.svelte'
+  import CloseIcon from './CloseIcon.svelte'
+  import HamburgerIcon from './HamburgerIcon.svelte'
 
   const uid = $props.id()
   const { rowData } = $props()
-  let filterMenuOpen = $state(true)
+  let filterMenuOpen = $state(false)
 
   const filterDivClass =
     'm-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md'
@@ -149,10 +151,15 @@
       {#if filterMenuOpen}
         <div class="flex p-1 px-2">
           <span>Filters</span>
+          <span class="flex-grow"></span>
+          <CloseIcon />
         </div>
       {:else}
-        <div class="flex -translate-1/2">
+        <div class="flex h-full flex-col pt-1">
+          <HamburgerIcon />
+          <span class="flex-grow"></span>
           <span class="-rotate-90">Filters</span>
+          <span class="flex-grow"></span>
         </div>
       {/if}
     </button>
