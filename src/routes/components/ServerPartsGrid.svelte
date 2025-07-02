@@ -140,7 +140,12 @@
 
 <div class="flex">
   <div class="h-screen flex-none {filterMenuOpen ? 'w-48' : 'w-6'}">
-    <button onclick={() => filterMenuOpen = !filterMenuOpen} class="w-full drop-shadow-sm hover:bg-sky-50 hover:drop-shadow-md m-0 {filterMenuOpen ? '' : 'h-screen'}">
+    <button
+      onclick={() => (filterMenuOpen = !filterMenuOpen)}
+      class="m-0 w-full drop-shadow-sm hover:bg-sky-50 hover:drop-shadow-md {filterMenuOpen
+        ? ''
+        : 'h-screen'}"
+    >
       {#if filterMenuOpen}
         <div class="flex p-1 px-2">
           <span>Filters</span>
