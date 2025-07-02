@@ -7,9 +7,13 @@
   import { mount } from 'svelte'
   import CellLink from './CellLink.svelte'
   import RangeFilter from './RangeFilter.svelte'
+  import CloseIcon from './CloseIcon.svelte'
+  import HamburgerIcon from './HamburgerIcon.svelte'
 
   const uid = $props.id()
   const { rowData } = $props()
+
+  let filterMenuOpen = $state(true)
 
   const filterDivClass =
     'm-1 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md'
@@ -138,8 +142,29 @@
 </script>
 
 <div class="flex">
-  <div class="h-screen w-48 flex-none">
-    {#if gridApi}
+  <div class="h-screen flex-none {filterMenuOpen ? 'w-48' : 'w-6'}">
+    <button
+      onclick={() => (filterMenuOpen = !filterMenuOpen)}
+      class="m-0 w-full drop-shadow-sm hover:bg-sky-50 hover:drop-shadow-md {filterMenuOpen
+        ? ''
+        : 'h-screen'}"
+    >
+      {#if filterMenuOpen}
+        <div class="flex p-1 px-2">
+          <span>Filters</span>
+          <span class="flex-grow"></span>
+          <CloseIcon />
+        </div>
+      {:else}
+        <div class="flex h-full flex-col pt-1">
+          <HamburgerIcon />
+          <span class="flex-grow"></span>
+          <span class="-rotate-90">Filters</span>
+          <span class="flex-grow"></span>
+        </div>
+      {/if}
+    </button>
+    {#if gridApi && filterMenuOpen}
       {#each checkboxFilterDefs as { label, column } (`${uid}-${column}`)}
         <div class={filterDivClass}>
           <span>{label}</span>
@@ -164,7 +189,7 @@
           valueGetter={(value) => value * 30}
         />
       </div>
-    {:else}
+    {:else if filterMenuOpen}
       <Spinner class="justify-items-end" />
     {/if}
   </div>
