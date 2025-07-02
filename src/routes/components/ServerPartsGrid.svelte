@@ -97,6 +97,8 @@
       sortable: false,
       resizable: false,
       width: 42,
+      minWidth: 42,
+      maxWidth: 42,
       cellRenderer: ({ value }: { value: string }) => {
         let element = document.createElement('div')
 
@@ -108,7 +110,12 @@
         return element
       },
     },
-  ].map((baseFilter) => ({ ...baseFilter, suppressHeaderFilterButton: true }))
+  ].map((baseColDef: ColDef) => ({
+    ...baseColDef,
+    suppressHeaderFilterButton: true,
+    flex: 1,
+    minWidth: baseColDef.minWidth ?? 96,
+  }))
 
   const checkboxFilterDefs = [
     {
