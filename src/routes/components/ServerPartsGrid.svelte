@@ -171,7 +171,7 @@
         </div>
       {/if}
     </button>
-    {#if gridApi && filterMenuOpen}
+    {#if gridApi}
       {#each checkboxFilterDefs as { label, column } (`${uid}-${column}`)}
         <div class={filterDivClass}>
           <span>{label}</span>
