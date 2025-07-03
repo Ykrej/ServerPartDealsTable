@@ -172,29 +172,31 @@
       {/if}
     </button>
     {#if gridApi}
-      {#each checkboxFilterDefs as { label, column } (`${uid}-${column}`)}
+      <div class={!filterMenuOpen ? 'hidden' : ''}>
+        {#each checkboxFilterDefs as { label, column } (`${uid}-${column}`)}
+          <div class={filterDivClass}>
+            <span>{label}</span>
+            <CheckBoxFilter {gridApi} {rowData} {column} field={column} />
+          </div>
+        {/each}
         <div class={filterDivClass}>
-          <span>{label}</span>
-          <CheckBoxFilter {gridApi} {rowData} {column} field={column} />
+          <span>Capacity</span>
+          <RangeFilter
+            {gridApi}
+            column="capacityGb"
+            placeholder="TB"
+            valueGetter={(value) => value * 1000}
+          />
         </div>
-      {/each}
-      <div class={filterDivClass}>
-        <span>Capacity</span>
-        <RangeFilter
-          {gridApi}
-          column="capacityGb"
-          placeholder="TB"
-          valueGetter={(value) => value * 1000}
-        />
-      </div>
-      <div class={filterDivClass}>
-        <span>Warranty Months</span>
-        <RangeFilter
-          {gridApi}
-          column="warrantyDays"
-          placeholder="Months"
-          valueGetter={(value) => value * 30}
-        />
+        <div class={filterDivClass}>
+          <span>Warranty Months</span>
+          <RangeFilter
+            {gridApi}
+            column="warrantyDays"
+            placeholder="Months"
+            valueGetter={(value) => value * 30}
+          />
+        </div>
       </div>
     {:else if filterMenuOpen}
       <Spinner class="justify-items-end" />
