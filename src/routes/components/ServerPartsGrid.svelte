@@ -181,11 +181,7 @@
         {/each}
         <div class={filterDivClass}>
           <span>Price</span>
-          <RangeFilter
-            {gridApi}
-            column="priceUsd"
-            placeholder="USD"
-          />
+          <RangeFilter {gridApi} column="priceUsd" placeholder="USD" />
         </div>
         <div class={filterDivClass}>
           <span>Capacity</span>
