@@ -12,6 +12,7 @@
     ValidationModule,
     themeBalham,
     ColumnAutoSizeModule,
+    colorSchemeDark,
   } from 'ag-grid-community'
   import { onMount } from 'svelte'
 
@@ -38,7 +39,7 @@
   onMount(() => {
     const gridOptions: GridOptions<RowData> = {
       columnDefs,
-      theme: themeBalham,
+      theme: themeBalham.withPart(colorSchemeDark),
       rowData: Array.isArray(rowData) ? rowData : [],
       defaultColDef: {
         sortable: true,
