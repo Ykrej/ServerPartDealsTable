@@ -11,7 +11,6 @@
     type ColDef,
     ValidationModule,
     themeBalham,
-    themeMaterial,
     ColumnAutoSizeModule,
     colorSchemeDark,
   } from 'ag-grid-community'
