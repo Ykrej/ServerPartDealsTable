@@ -16,7 +16,7 @@
   let filterMenuOpen = $state(true)
 
   const filterDivClass =
-    'm-1 w-46 rounded-sm border-1 bg-gray-50 px-1 drop-shadow-md'
+    'm-1 w-46 rounded-sm border-1 border-neutral-500 bg-gray-50 px-1 drop-shadow-md bg-neutral-700 text-neutral-100'
 
   let gridApi: GridApi | undefined = $state()
 
@@ -149,7 +149,7 @@
   >
     <button
       onclick={() => (filterMenuOpen = !filterMenuOpen)}
-      class="m-0 w-full drop-shadow-sm hover:bg-sky-50 hover:drop-shadow-md {filterMenuOpen
+      class="m-0 w-full bg-neutral-700 text-neutral-400 drop-shadow-sm hover:bg-cyan-900 hover:drop-shadow-md {filterMenuOpen
         ? ''
         : 'h-screen'}"
     >
