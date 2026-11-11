@@ -17,7 +17,9 @@ export const load: PageLoad = async () => {
   }
 }
 
-async function safeGetServerPartsRecords(collection: ServerPartsCollection): Promise<ServerPartsRecord[]> {
+async function safeGetServerPartsRecords(
+  collection: ServerPartsCollection
+): Promise<ServerPartsRecord[]> {
   try {
     return await getServerPartsRecords(collection)
   } catch {
